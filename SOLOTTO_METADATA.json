@@ -1,0 +1,152 @@
+{
+  "name": "Solotto",
+  "symbol": "SLTO",
+  "description": "Solotto is a revolutionary lottery token on Solana that automatically rewards holders. Every week, four random holders are selected and the one with the highest balance becomes the winner, receiving 1% of all transactions for the next week.",
+  "image": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png",
+  "external_url": "https://solotto.io",
+  
+  "attributes": [
+    {
+      "trait_type": "Token Standard",
+      "value": "Token-2022"
+    },
+    {
+      "trait_type": "Token Type",
+      "value": "Utility"
+    },
+    {
+      "trait_type": "Total Supply",
+      "value": "50,000,000,000"
+    },
+    {
+      "trait_type": "Decimals",
+      "value": "9"
+    },
+    {
+      "trait_type": "Transfer Fee",
+      "value": "1%"
+    },
+    {
+      "trait_type": "Creator Fee",
+      "value": "1%"
+    },
+    {
+      "trait_type": "Lottery Cycle",
+      "value": "7 Days"
+    }
+  ],
+  
+  "properties": {
+    "category": "Token",
+    "creators": [
+      {
+        "address": "DWJcugMt2YpabVGHQ46romguVrMFndfuKrX4ehEZUVBB",
+        "share": 100
+      }
+    ],
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png",
+        "type": "image/png"
+      }
+    ]
+  },
+  
+  "collection": {
+    "name": "Solotto Ecosystem",
+    "family": "Solana Tokens"
+  },
+  
+  "tokenomics": {
+    "total_supply": 50000000000,
+    "distribution": {
+      "liquidity_pool": 20000000000,
+      "community_rewards": 15000000000,
+      "marketing": 10000000000,
+      "team_development": 5000000000
+    },
+    "percentages": {
+      "liquidity_pool": 40,
+      "community_rewards": 30,
+      "marketing": 20,
+      "team_development": 10
+    },
+    "vesting": {
+      "liquidity_pool": "Immediately available",
+      "community_rewards": "Released over 12 months",
+      "marketing": "Released over 24 months",
+      "team_development": "6 month cliff, then 24 month linear vesting"
+    }
+  },
+  
+  "social_media": {
+    "twitter": "@SolottoToken",
+    "telegram": "https://t.me/solottotoken",
+    "discord": "https://discord.gg/solotto",
+    "medium": "https://medium.com/@solotto"
+  },
+  
+  "roadmap": {
+    "phase1": {
+      "title": "Launch & Initial Liquidity",
+      "items": [
+        "Create Solotto token on testnet",
+        "Deploy token on mainnet",
+        "Add initial liquidity pool",
+        "Launch website and social media"
+      ]
+    },
+    "phase2": {
+      "title": "Lottery Implementation",
+      "items": [
+        "Deploy lottery smart contract",
+        "Implement weekly winner selection",
+        "Set up automated fee distribution",
+        "Community growth initiatives"
+      ]
+    },
+    "phase3": {
+      "title": "Expansion & Adoption",
+      "items": [
+        "Exchange listings",
+        "Marketing campaigns",
+        "Partnerships with other projects",
+        "Enhanced lottery features"
+      ]
+    },
+    "phase4": {
+      "title": "Ecosystem Development",
+      "items": [
+        "Additional Solotto utility products",
+        "Governance mechanisms",
+        "Staking rewards",
+        "Cross-chain integration"
+      ]
+    }
+  },
+  
+  "team": {
+    "founder": {
+      "role": "Founder & Lead Developer",
+      "background": "Experienced blockchain developer with expertise in Solana"
+    }
+  },
+  
+  "technical_details": {
+    "blockchain": "Solana",
+    "token_program": "Token-2022",
+    "contract_address": "To be deployed",
+    "features": [
+      "1% transaction fee to creator",
+      "1% transaction fee to weekly lottery winner",
+      "Weekly random selection of 4 holders",
+      "Winner is highest balance holder among selected 4",
+      "Automatic fee distribution through smart contract"
+    ],
+    "security": {
+      "audit_status": "Pending",
+      "open_source": true,
+      "github_repository": "https://github.com/solotto"
+    }
+  }
+}
