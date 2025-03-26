@@ -1,7 +1,7 @@
 # Solotto Token (SLTO) Metadata
 
 ## Basic Information
-- **Name:** Solotto
+- **Name:** Solotto Beta
 - **Symbol:** SLTO
 - **Decimals:** 9
 - **Total Supply:** 50,000,000,000 SLTO
