@@ -44,9 +44,9 @@
 
 ## Social Media
 - **Website:** https://solotto.io
-- **Twitter:** @SolottoToken
-- **Telegram:** https://t.me/solottotoken
-- **Discord:** https://discord.gg/solotto
+- **Twitter:** https://x.com/solottotoken?s=21
+- **Discord:** https://discord.gg/Tat8XqK9
+- **GitHub:** https://github.com/edfarialand/solotto
 
 ## Roadmap
 1. **Phase 1: Launch & Initial Liquidity**
