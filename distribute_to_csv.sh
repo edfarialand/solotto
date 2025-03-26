@@ -19,9 +19,9 @@ if [ ! -f "$CSV_FILE" ]; then
   exit 1
 fi
 
-# Get the configured wallet
-CONFIGURED_WALLET=$(solana address)
-echo "Using wallet: $CONFIGURED_WALLET"
+# Use the minting wallet for distribution
+CONFIGURED_WALLET="4cbgRgFa4QbtaLDuLgvyHunswCTwXxW63zv5jMho6cGq"
+echo "Using minting wallet: $CONFIGURED_WALLET"
 
 # Show token info before distribution
 echo "Current token information:"
