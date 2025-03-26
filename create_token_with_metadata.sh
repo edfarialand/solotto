@@ -24,16 +24,17 @@ echo "Initial winner (you): $INITIAL_WINNER"
 # This fee automatically goes to the TRANSFER FEE AUTHORITY account
 # We'll need to regularly withdraw and distribute it to the weekly winner
 echo "Creating Solotto token with 1% transfer fee for lottery mechanism..."
-TOKEN_ADDRESS=$(spl-token create-token --program-2022 --transfer-fee 100 10000 --decimals 9 | grep "Address:" | awk '{print $2}')
+# Adding metadata-pointer extension to comply with Token-2022 metadata requirements
+TOKEN_ADDRESS=$(spl-token create-token --program-2022 --transfer-fee 100 10000 --decimals 9 --enable-metadata | grep "Address:" | awk '{print $2}')
 echo "Token created with address: $TOKEN_ADDRESS"
 
 # Create token account
 echo "Creating token account..."
 spl-token create-account $TOKEN_ADDRESS --program-2022
 
-# Mint 50 billion tokens
-echo "Minting 50,000,000,000 tokens..."
-spl-token mint $TOKEN_ADDRESS 50000000000 --program-2022
+# Mint 18 billion tokens
+echo "Minting 18,000,000,000 tokens..."
+spl-token mint $TOKEN_ADDRESS 18000000000 --program-2022
 
 # Initialize metadata with token info
 echo "Initializing token metadata..."
