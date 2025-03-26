@@ -5,7 +5,7 @@
 - **Symbol:** SLTO
 - **Decimals:** 9
 - **Total Supply:** 50,000,000,000 SLTO
-- **Description:** Solotto is a revolutionary lottery token on Solana that automatically rewards holders. Every week, four random holders are selected and the one with the highest balance becomes the winner, receiving 1% of all transactions for the next week.
+- **Description:** This is Solotto, a Solana based token with a lottery feature giving the weekly winner 1% of all on chain transactions. Aren't you sick of influencers promising a prize for subscribing or reposting and in the back of your mind you know they're lying and nothing is going to be distributed... and even so, you aren't gonna win? This is what you need. This is a coin that will guarantee you at least still have the Solotto in your wallet after every drawing and maybe more. The code is open source and hosted on our github for all to see and what is even better, YOU CAN SEE THE TRANSACTIONS. YOU CAN SEE THE MONEY GOING INTO THAT WEEKS WINNERS ADDRESS. THE BLOCKCHAIN SPEAKS FOR ITSELF. So do your own research and be safe with your investments but i have one question. What lottery ticket holds value after drawing? None but Solotto. There are no lottery tickets. Owning the currency is your entry so even if you dont win this weeks drawing, you can sell your Solotto making this the smartest lottery on top of the most transparent. Smart. Transparent. Solotto.
 - **Token Standard:** Token-2022 (supports transfer fees and metadata)
 
 ## Features
