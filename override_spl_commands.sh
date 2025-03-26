@@ -17,7 +17,7 @@ cat > ~/.solotto_wrappers << 'EOL'
 get_solotto_token() {
     # This function will return the current Solotto token address
     # You can update this if you mint a new token
-    echo "46CBCai9pg9WpkkFbWRAnhV9seRNP6ZHm5i4H8D1W9Mu"
+    echo "SOLOTTO_TOKEN_ADDRESS_PLACEHOLDER"
 }
 
 # Get the current lottery winner
