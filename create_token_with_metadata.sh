@@ -37,16 +37,13 @@ spl-token mint $TOKEN_ADDRESS 50000000000 --program-2022
 
 # Initialize metadata with token info
 echo "Initializing token metadata..."
-# Create a metadata URL - this would typically be a hosted JSON file with your full description
-# For now we'll just use the image URL, but you should replace this with your metadata JSON URL
-# that points to a hosted version of SOLOTTO_METADATA.json
-METADATA_URL="https://raw.githubusercontent.com/solotto/solotto/main/SOLOTTO_METADATA.json"
+# Set the metadata URL to your GitHub repo version
+# Using raw GitHub URL format for direct access to the JSON file
+METADATA_URL="https://raw.githubusercontent.com/edfarialand/solotto/bc4c81e7855782d63732aa1041553f1446ebd2a8/SOLOTTO_METADATA.json"
 
-# Set token icon URL from your GitHub repo
-ICON_URL="https://raw.githubusercontent.com/edfarialand/solotto/ce712299cb50bf0fe118bd6e6384741b5f73e4e7/pressd.png"
-
-# Initialize metadata with your custom icon
-spl-token initialize-metadata $TOKEN_ADDRESS "Solotto" "SLTO" "$ICON_URL" --program-2022
+# Initialize metadata with your metadata JSON URL
+echo "Using metadata JSON URL: $METADATA_URL"
+spl-token initialize-metadata $TOKEN_ADDRESS "Solotto" "SLTO" "$METADATA_URL" --program-2022
 
 # Display a note about the metadata with your description
 echo "Token metadata initialized with the following description:"
