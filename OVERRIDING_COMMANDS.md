@@ -11,13 +11,14 @@ When you run the `override_spl_commands.sh` script, it will:
 3. Apply the lottery fee structure automatically:
 
 ### For Regular Transfers:
-- Apply a 2% total fee (1% from sender, 1% from receiver)
-- Recipient receives 98% of the amount
-- Lottery winner receives 2% of the amount
+- When using `spl-token transfer`, the command is intercepted
+- 99% of tokens go to the intended recipient
+- 1% of tokens go directly to the current lottery winner
+- All this happens transparently without the user having to use a custom command
 
 ### For Swaps (when receiving Solotto):
-- After the swap completes, 2% of the received Solotto tokens are sent to the lottery winner
-- The wallet receiving Solotto essentially contributes 2% to the lottery
+- After the swap completes, 1% of the received Solotto tokens are sent to the lottery winner
+- The wallet receiving Solotto essentially contributes 1% to the lottery
 
 ### For Swaps (when sending Solotto):
 - Before the swap, 1% of the Solotto tokens are sent to the lottery winner

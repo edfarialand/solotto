@@ -2,9 +2,6 @@
 # Script to override standard spl-token commands to add Solotto's custom lottery functionality
 # This creates wrapper functions that will automatically handle the 1% distribution to the lottery winner
 
-# Token address - Replace with your actual token address
-SOLOTTO_TOKEN="46CBCai9pg9WpkkFbWRAnhV9seRNP6ZHm5i4H8D1W9Mu"
-
 # Path to lottery data
 LOTTERY_DATA="/home/ed/solotto/lottery_data"
 WINNER_FILE="${LOTTERY_DATA}/current_winner.txt"
@@ -12,19 +9,16 @@ WINNER_FILE="${LOTTERY_DATA}/current_winner.txt"
 # Create directory if it doesn't exist
 mkdir -p "${LOTTERY_DATA}"
 
-# Function to check if a command is being run on Solotto token
-is_solotto_operation() {
-    local args="$*"
-    if [[ "$args" == *"$SOLOTTO_TOKEN"* ]]; then
-        return 0 # True
-    else
-        return 1 # False
-    fi
-}
-
 # Create the wrapper functions file
 cat > ~/.solotto_wrappers << 'EOL'
-# Solotto Token wrapper functions for SPL Token and Swap commands
+# Solotto Token wrapper functions for SPL Token commands
+
+# Get the current Solotto token address
+get_solotto_token() {
+    # This function will return the current Solotto token address
+    # You can update this if you mint a new token
+    echo "46CBCai9pg9WpkkFbWRAnhV9seRNP6ZHm5i4H8D1W9Mu"
+}
 
 # Get the current lottery winner
 get_lottery_winner() {
@@ -45,7 +39,7 @@ spl-token() {
     local args=("$@")
 
     # Check if this is the Solotto token and a transfer command
-    if [[ "$cmd" == "transfer" && "$1" == "46CBCai9pg9WpkkFbWRAnhV9seRNP6ZHm5i4H8D1W9Mu" ]]; then
+    if [[ "$cmd" == "transfer" && "$1" == "$(get_solotto_token)" ]]; then
         echo "🎲 Solotto token detected - using lottery distribution transfer"
         
         # Extract token, amount, and recipient from arguments
@@ -64,23 +58,21 @@ spl-token() {
         
         echo "🏆 Current lottery winner: $winner"
         
-        # Calculate 2% for the winner (1% from sender, 1% from receiver)
-        # New structure: Take 1% from sender and 1% from receiver = 2% total
-        local winner_amount=$(echo "$amount * 0.02" | bc -l | awk '{printf "%.9f", $0}')
-        local recipient_amount=$(echo "$amount * 0.98" | bc -l | awk '{printf "%.9f", $0}')
+        # Calculate 1% for the winner
+        local winner_amount=$(echo "$amount * 0.01" | bc -l | awk '{printf "%.9f", $0}')
+        local recipient_amount=$(echo "$amount * 0.99" | bc -l | awk '{printf "%.9f", $0}')
         
         echo "📊 Transfer breakdown:"
         echo "  Original amount: $amount SLTO"
-        echo "  Recipient will receive: $recipient_amount SLTO (98%)"
-        echo "  Lottery winner will receive: $winner_amount SLTO (2%)"
-        echo "  Taking 1% from sender and 1% from recipient"
+        echo "  Recipient will receive: $recipient_amount SLTO (99%)"
+        echo "  Lottery winner will receive: $winner_amount SLTO (1%)"
         
-        # Transfer 98% to recipient
+        # Transfer 99% to recipient
         echo "📤 Transferring to recipient..."
         command spl-token transfer "$token" "$recipient_amount" "$recipient" "$@"
         local recipient_status=$?
         
-        # If recipient transfer successful, send 2% to winner
+        # If recipient transfer successful, send 1% to winner
         if [ $recipient_status -eq 0 ]; then
             echo "📤 Transferring to lottery winner..."
             command spl-token transfer "$token" "$winner_amount" "$winner" --fund-recipient
@@ -103,7 +95,7 @@ spl-token() {
     fi
 }
 
-# Override the swap command (for DEX interactions)
+# Override the standard swap command
 swap() {
     local from_token="$1"
     local amount="$2"
@@ -111,8 +103,10 @@ swap() {
     shift 3
     local args=("$@")
     
+    local solotto_token=$(get_solotto_token)
+    
     # Check if receiving Solotto tokens in the swap
-    if [[ "$to_token" == "46CBCai9pg9WpkkFbWRAnhV9seRNP6ZHm5i4H8D1W9Mu" ]]; then
+    if [[ "$to_token" == "$solotto_token" ]]; then
         echo "🎲 Solotto token swap detected - applying lottery fee"
         
         # Get current winner
@@ -125,23 +119,23 @@ swap() {
         
         echo "🏆 Current lottery winner: $winner"
         
-        # For swaps, take 2% from the person receiving Solotto
-        echo "📊 Swap will include 2% lottery fee from received Solotto"
+        # For swaps, take 1% from the person receiving Solotto
+        echo "📊 Swap will include 1% lottery fee from received Solotto"
         
         # Execute the normal swap
         command swap "$from_token" "$amount" "$to_token" "${args[@]}"
         local swap_status=$?
         
         if [ $swap_status -eq 0 ]; then
-            # After swap completes, calculate and transfer 2% of received amount to winner
+            # After swap completes, calculate and transfer 1% of received amount to winner
             # Note: We need to determine how much Solotto was received
             echo "🔍 Checking received Solotto amount..."
-            local received_amount=$(spl-token accounts | grep "$to_token" | awk '{print $2}')
+            local received_amount=$(command spl-token accounts | grep "$to_token" | awk '{print $2}')
             
-            # Calculate 2% of the received amount
-            local winner_amount=$(echo "$received_amount * 0.02" | bc -l | awk '{printf "%.9f", $0}')
+            # Calculate 1% of the received amount
+            local winner_amount=$(echo "$received_amount * 0.01" | bc -l | awk '{printf "%.9f", $0}')
             
-            echo "📤 Transferring 2% ($winner_amount SLTO) to lottery winner..."
+            echo "📤 Transferring 1% ($winner_amount SLTO) to lottery winner..."
             command spl-token transfer "$to_token" "$winner_amount" "$winner" --fund-recipient
             local winner_status=$?
             
@@ -156,8 +150,9 @@ swap() {
             echo "❌ Error: Swap failed."
             return $swap_status
         fi
+    
     # Check if sending Solotto tokens in the swap
-    elif [[ "$from_token" == "46CBCai9pg9WpkkFbWRAnhV9seRNP6ZHm5i4H8D1W9Mu" ]]; then
+    elif [[ "$from_token" == "$solotto_token" ]]; then
         echo "🎲 Sending Solotto token in swap - applying lottery fee"
         
         # Get current winner
@@ -190,6 +185,7 @@ swap() {
     else
         # Not a Solotto swap, execute normal command
         command swap "$from_token" "$amount" "$to_token" "${args[@]}"
+        return $?
     fi
 }
 
@@ -197,6 +193,7 @@ swap() {
 export -f spl-token
 export -f swap
 export -f get_lottery_winner
+export -f get_solotto_token
 EOL
 
 # Make it executable
@@ -215,14 +212,43 @@ echo "# Source this file to enable Solotto overrides in current session" > ./ena
 echo "source ~/.solotto_wrappers" >> ./enable_solotto_overrides.sh
 chmod +x ./enable_solotto_overrides.sh
 
+# Function to update the Solotto token address
+cat > ./update_solotto_token.sh << 'EOL'
+#!/bin/bash
+# Script to update the Solotto token address used in the command overrides
+# Usage: ./update_solotto_token.sh <TOKEN_ADDRESS>
+
+if [ -z "$1" ]; then
+    echo "Error: Token address is required"
+    echo "Usage: ./update_solotto_token.sh <TOKEN_ADDRESS>"
+    exit 1
+fi
+
+TOKEN_ADDRESS=$1
+
+# Update the token address in the wrappers file
+sed -i "s/echo \"[a-zA-Z0-9]*\"/echo \"$TOKEN_ADDRESS\"/g" ~/.solotto_wrappers
+
+echo "✅ Solotto token address updated to: $TOKEN_ADDRESS"
+echo "The override commands will now use this token address for lottery functionality."
+EOL
+
+chmod +x ./update_solotto_token.sh
+
 echo ""
 echo "🎲 Solotto command overrides have been installed!"
 echo ""
-echo "Any spl-token transfer operations for token $SOLOTTO_TOKEN will now"
-echo "automatically send 1% to the current lottery winner."
+echo "Now the standard spl-token transfer command will automatically:"
+echo "  - Send 99% to the recipient"
+echo "  - Send 1% to the current lottery winner"
+echo ""
+echo "Similarly, swap commands involving Solotto will also contribute to the lottery."
 echo ""
 echo "To enable in your current terminal session, run:"
 echo "  source ./enable_solotto_overrides.sh"
 echo ""
+echo "After minting a new token, update its address with:"
+echo "  ./update_solotto_token.sh <NEW_TOKEN_ADDRESS>"
+echo ""
 echo "The override will be automatically enabled in all new terminal sessions."
-echo "To disable temporarily, run: 'unset -f spl-token'"
+echo "To disable temporarily, run: 'unset -f spl-token swap'"
