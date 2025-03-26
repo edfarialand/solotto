@@ -6,11 +6,22 @@ Solotto includes a powerful feature that allows you to use the standard `spl-tok
 
 When you run the `override_spl_commands.sh` script, it will:
 
-1. Create a wrapper function that intercepts the `spl-token transfer` command
-2. Check if the transfer is for the Solotto token
-3. If it is, automatically split the transaction:
-   - 99% goes to the intended recipient
-   - 1% goes to the current lottery winner
+1. Create wrapper functions that intercept the `spl-token transfer` and `swap` commands
+2. Check if the transfer/swap involves the Solotto token
+3. Apply the lottery fee structure automatically:
+
+### For Regular Transfers:
+- Apply a 2% total fee (1% from sender, 1% from receiver)
+- Recipient receives 98% of the amount
+- Lottery winner receives 2% of the amount
+
+### For Swaps (when receiving Solotto):
+- After the swap completes, 2% of the received Solotto tokens are sent to the lottery winner
+- The wallet receiving Solotto essentially contributes 2% to the lottery
+
+### For Swaps (when sending Solotto):
+- Before the swap, 1% of the Solotto tokens are sent to the lottery winner
+- The swap is then executed with the remaining 99%
 
 ## Installation
 
